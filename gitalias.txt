@@ -432,6 +432,16 @@
   
   # search alias
   sa = "!git aliases | grep "
+  # Remember that these git alias can be part of a longer command. Such as git sa "reset" | head -n 5 can limit the output number, git sa "reset" | grep 'fsck' can continue filering output.
+
+  # print the number of alias
+  aliasno = "!git aliases | wc -l"
+
+  # print the first n alias
+  firstn = "!git aliases | head -n"
+
+  # print the last n alias
+  lastn = "!git aliases | tail -n"
 
   # Rename an alias
   rename-alias = "!f() { [ $# = 3 ] && [ $2 != $3 ] && [ ! -z \"$(git config $1 --get alias.$2)\" ] && [ -z \"$(git config $1 --get alias.$3)\" ] && git config $1 alias.$3 \"$(git config $1 --get alias.$2)\" && git config $1 --unset alias.$2 && return 0 || echo \"Usage: git rename-(local|global)-alias <alias existing name> <new alias name>\nThe alias you are going to rename must exist and new name must not exist.\" >&2 && return 1; };f"
