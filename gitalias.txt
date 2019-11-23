@@ -203,6 +203,9 @@
 
   # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
   lll = log --graph --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
+  
+  # log like long short
+  llls = log --graph --topo-order --date=format:'%Y/%m/%d %H:%M' --no-abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset'
 
   ## ls-files ##
 
@@ -533,18 +536,18 @@
   log-latest-date = log -1 --date-order --format=%cI
 
   # Show the log of the recent hour, day, week, month, year
-  log-hour  = log --since "1 hour ago"
-  log-day   = log --since "1 day ago"
-  log-week  = log --since "1 week ago"
-  log-month = log --since "1 month ago"
-  log-year  = log --since "1 year ago"
+  log-hour  = log --since='1 hour ago'
+  log-day   = log --since='1 day ago'
+  log-week  = log --since='1 week ago'
+  log-month = log --since='1 month ago'
+  log-year  = log --since='1 year ago'
 
   # Show the log of my own recent hour, day, week, month, year
-  log-my-hour  = log --author $(git config user.email) --since "1 hour ago"
-  log-my-day   = log --author $(git config user.email) --since "1 day ago"
-  log-my-week  = log --author $(git config user.email) --since "1 week ago"
-  log-my-month = log --author $(git config user.email) --since "1 month ago"
-  log-my-year  = log --author $(git config user.email) --since "1 year ago"
+  log-my-hour  = !git log --author $(git config user.email) --since='1 hour ago'
+  log-my-day   = !git log --author $(git config user.email) --since='1 day ago'
+  log-my-week  = !git log --author $(git config user.email) --since='1 week ago'
+  log-my-month = !git log --author $(git config user.email) --since='1 month ago'
+  log-my-year  = !git log --author $(git config user.email) --since='1 year ago'
 
   # Show a specific format string and its number of log entries
   log-of-format-and-count = "!f() { format=\"$1\"; shift; git log $@ --format=oneline --format="$format" | awk '{a[$0]++}END{for(i in a){print i, a[i], int((a[i]/NR)*100) \"%\"}}' | sort; }; f"
@@ -724,7 +727,7 @@
     printf \"%s\n\" $(pwd); \
     printf \"%d file count via git ls-files\n\" $(git ls-files | wc -l); \
     printf \"%d file count via find command\n\" $(find . | wc -l); \
-    printf \"%d disk usage\n\" $(du -s | awk '{print $1}'); \
+    printf \"%s disk usage\n\" $(du -sh | awk '{print $1}'); \
     printf \"\nMost-active authors, with commit count and %%...\n\"; git log-of-count-and-email | head -7; \
     printf \"\nMost-active dates, with commit count and %%...\n\"; git log-of-count-and-day | head -7; \
     printf \"\nMost-active files, with churn count\n\"; git churn | head -7; \
