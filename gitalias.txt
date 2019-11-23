@@ -156,11 +156,14 @@
 
   ### diff ###
 
-  # diff - show changes not yet staged
+  # diff - show changes not yet staged (This is autually not correct. staged and cached are synonyms. https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository)
   dc = diff --cached
 
   # diff - show changes about to be commited
   ds = diff --staged
+
+  # diff - show changes both staged & working tree
+  cvv = status -vv
 
   # diff - show changes but by word, not line
   dw = diff --word-diff
@@ -827,6 +830,9 @@
   # then you can use the older "stash save" instead of the newer "stash push".
   save = stash push
   pop = stash pop
+
+  #stash all changes including untracked files. Append stash name in the end of the line
+  stashsave = stash save --include-untracked
 
   # Stash snapshot - from http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
   # Take a snapshot of your current working tree without removing changes.
