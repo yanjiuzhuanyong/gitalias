@@ -165,6 +165,17 @@
   # diff - show changes both staged & working tree
   cvv = status -vv
 
+  # Show diff of all changes; Similar with cvv alias
+  dca = "!f() { \
+    printf \"Untracked files:\n\"; \
+  git ls-files --others --exclude-standard; \
+    printf \"\n------------------------------------------------------------\n\"; \
+    printf \"Changes to be committed:\n\"; \
+  git dc; \
+    printf \"\n------------------------------------------------------------\n\"; \
+    printf \"Changes not staged for commit:\n\"; \
+  git d;};f"
+
   # diff - show changes but by word, not line
   dw = diff --word-diff
 
@@ -172,6 +183,9 @@
   dd = diff --check --dirstat --find-copies --find-renames --histogram --color
 
   ### clean ###
+
+  # Discard all changes and delete untracked files
+  purge = "!f(){ git checkout -f && git clean -f; };f"
 
   # clean everything to be pristine
   cleanest = clean -ffdx
@@ -430,8 +444,9 @@
   add-global-alias = "!git add-alias --global"
   add-local-alias = "!git add-alias --local"
   
-  # search alias
-  sa = "!git aliases | grep "
+  # search alias. Use the following expression instead of 'git aliases' to list the aliases, because 'git aliases' will cut the prefix 'alias.', making the output not suitable for searching .
+  sa = "!git config --get-regexp '^alias\\.' | grep "
+ 
   # Remember that these git alias can be part of a longer command. Such as git sa "reset" | head -n 5 can limit the output number, git sa "reset" | grep 'fsck' can continue filering output.
 
   # print the number of alias
@@ -465,6 +480,12 @@
   diff-changes = diff --name-status -r
   diff-stat = diff --stat --ignore-space-change -r
   diff-staged = diff --cached
+
+  # Show diff of a commit specified by hash
+  dco = "!f(){ git diff $1^! ;};f"
+
+  # Show diff of two commits specified by hashes
+  dco2 = "!f(){ git diff $1 $2 ;};f"
 
   # Diff using our preferred options. A.k.a. `dd`.
   diff-deep = diff --check --dirstat --find-copies --find-renames --histogram --color
