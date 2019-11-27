@@ -224,8 +224,11 @@
   # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
   lll = log --graph --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
   
-  # log like long short
-  llls = log --graph --topo-order --date=format:'%Y/%m/%d %H:%M' --no-abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset'
+  # log like short
+  lls = log --graph --topo-order --date=format:'%Y/%m/%d %H:%M' --no-abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset'
+
+  # log like only local and remote branch, not like --all (which includes all the refs in refs/, such as stashes)
+  llb = log --graph --topo-order --date=format:'%Y/%m/%d %H:%M' --no-abbrev-commit --decorate --branches=* --remotes=* --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset'
 
   ## ls-files ##
 
@@ -581,6 +584,13 @@
   log-week  = log --since='1 week ago'
   log-month = log --since='1 month ago'
   log-year  = log --since='1 year ago'
+  
+  # Show the log of the recent (specified by parameter) hour, day, week, month, year. Note the format of $1 used here.
+  log-hourn = "!f(){ git log --since=''$1' hour ago' ;}; f"
+  log-dayn = "!f(){ git log --since=''$1' day ago' ;}; f"
+  log-weekn  = "!f(){ git log --since=''$1' week ago' ;}; f"
+  log-monthn = "!f(){ git log --since=''$1' month ago' ;}; f"
+  log-yearn  = "!f(){ git log --since=''$1' year ago' ;}; f"
 
   # Show the log of my own recent hour, day, week, month, year
   log-my-hour  = !git log --author $(git config user.email) --since='1 hour ago'
